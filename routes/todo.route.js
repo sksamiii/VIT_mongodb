@@ -1,0 +1,21 @@
+const express=require("express");
+const router = express.Router();
+const List=require("../model/todo.model");
+const User=require("../model/user.model");
+
+router.post("/add",async(req,res)=>{
+    try{
+        const newList=new List({
+            text:req.body.text,
+            user:req.body.user,
+        });
+        const list= await newList.save();
+        console.log(list);
+        res.status(201).json(list);
+    }catch(err){
+        res.status(400).send("Error"+err);
+    }
+    res.end();
+})
+
+module.exports=router;
