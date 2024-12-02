@@ -4,7 +4,7 @@ const List=require("../model/todo.model");
 const User=require("../model/user.model");
 
 router.post("/add",async(req,res)=>{
-    try{
+    try{ 
         const newList=new List({
             text:req.body.text,
             user:req.body.user,
@@ -16,6 +16,33 @@ router.post("/add",async(req,res)=>{
         res.status(400).send("Error"+err);
     }
     res.end();
-})
-
-module.exports=router;
+});
+router.get("/all",async(req,res)=>{
+    try{
+        const list=await List.find({
+           
+            user:req.body.user,
+        }); 
+        console.log(list);
+        res.status(200).json(list); 
+    }catch(err){
+        res.status(400).send("Error: "+ err);
+    }
+    res.end();
+});
+router.patch("/:id", async (req, res) => {
+    try {
+      const updatedList = await List.findByIdAndUpdate(
+        req.params.id,
+        {
+          text: req.body.text,
+          status: req.body.status,
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedList);
+    } catch (error) {
+      res.status(400).send("Error: " + error);
+    }
+  });
+module.exports=router; 
