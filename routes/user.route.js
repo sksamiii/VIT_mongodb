@@ -5,9 +5,9 @@ const User= require("../model/user.model");
 router.post("/register", async(req,res)=>{
     try{
        const newUser= new User({
-        userName: req.body.userName,
-        email: req.body.email,
-        password: req.body.password,
+            userName: req.body.userName,
+            email: req.body.email,
+            password: req.body.password,
        });
        if(await User.findOne({email: req.body.email})){
         return res.status(602).send("Same email already exists");
